@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICARUS V2 - Tactical Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="header-title">
+                <img src="images/icarus_logo_black.png" alt="logo" class="logo">
+                <h1>Defense System</h1>
+            </div>
+        </div>
+        <div class="stats-container">
+            <div class="stat-box">
+                <span class="stat-label">SURVIVAL:</span>
+                <span class="stat-value"><span id="timer">0</span>s</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">DECOYS:</span>
+                <span class="stat-value" id="decoy-count">0</span>
+            </div>
+            <div id="status" class="status-msg active">STANDBY</div>
+        </div>
+    </header>
+
+    <div class="controls-panel">
+        <div class="control-box icarus-control">
+            <label>ICARUS Reaction Delay: <span id="icarus-speed-val">400</span>miliseconds</label>
+            <input type="range" id="icarus-speed" min="50" max="1500" step="50" value="400">
+        </div>
+        <div class="control-box red-control">
+            <label>RED AGENT Attack Rate: <span id="red-speed-val">1500</span>miliseconds</label>
+            <input type="range" id="red-speed" min="200" max="3000" step="100" value="1500">
+        </div>
+    </div>
+
+    <main id="main-container">
+        <div id="content-area">
+            <div id="network-canvas">
+                <div id="icarus-agent" class="agent-label icarus-label">ICARUS</div>
+                
+                <div class="center-column">
+                    <div id="nodes-display" class="nodes-display"></div>
+                </div>
+                
+                <div id="red-agent" class="agent-label attacker-label">RED AGENT</div>
+            </div>
+        </div>
+
+        <div id="terminal-log" class="right-sidebar">
+            <div class="terminal-header">System Log</div>
+            <div class="terminal-content" id="terminal-content">
+                <p class="system-msg">>> ICARUS System Online. Initializing subnet...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 ICARUS Defense Systems | AI-Powered Cybersecurity</p>
+            <p>System Status: <span class="status-active">ACTIVE</span></p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
