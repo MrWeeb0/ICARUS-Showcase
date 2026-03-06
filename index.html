@@ -1,72 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICARUS V2 - Tactical Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICARUS — Adaptive Network Deception AI</title>
+  <meta name="description" content="ICARUS deploys 30 intelligent decoys the moment an attacker probes your network — then swaps the real port based on attacker behavior." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <div class="header-title">
-                <img src="images/icarus_logo_black.png" alt="logo" class="logo">
-                <h1>Defense System</h1>
-            </div>
-        </div>
-        <div class="stats-container">
-            <div class="stat-box">
-                <span class="stat-label">SURVIVAL:</span>
-                <span class="stat-value"><span id="timer">0</span>s</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">DECOYS:</span>
-                <span class="stat-value" id="decoy-count">0</span>
-            </div>
-            <div id="status" class="status-msg active">STANDBY</div>
-        </div>
-    </header>
 
-    <div class="controls-panel">
-        <div class="control-box icarus-control">
-            <label>ICARUS Reaction Delay: <span id="icarus-speed-val">400</span>miliseconds</label>
-            <input type="range" id="icarus-speed" min="50" max="1500" step="50" value="400">
-        </div>
-        <div class="control-box red-control">
-            <label>RED AGENT Attack Rate: <span id="red-speed-val">1500</span>miliseconds</label>
-            <input type="range" id="red-speed" min="200" max="3000" step="100" value="1500">
-        </div>
+<div id="particles-js"></div>
+
+<div class="scanline-overlay"></div>
+
+<div class="site">
+
+  <!-- ═══ NAV ═══ -->
+  <nav id="nav">
+    <div class="nav-row wrap">
+      <a href="#" class="nav-logo">
+        <img src="images/icarus_logo_black.png" alt="ICARUS" class="nav-logo-img" />
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#how">Protocol</a></li>
+        <li><a href="#features">Arsenal</a></li>
+        <li><a href="#demo">Live Demo</a></li>
+        <li><a href="#deploy">Deploy</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <a href="#deploy" class="btn-nav">Request Access</a>
+        <button class="hamburger" onclick="navOpen()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+  </nav>
 
-    <main id="main-container">
-        <div id="content-area">
-            <div id="network-canvas">
-                <div id="icarus-agent" class="agent-label icarus-label">ICARUS</div>
-                
-                <div class="center-column">
-                    <div id="nodes-display" class="nodes-display"></div>
-                </div>
-                
-                <div id="red-agent" class="agent-label attacker-label">RED AGENT</div>
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="close-btn" onclick="navClose()">[ CLOSE ]</button>
+    <img src="icarus_logo.png" alt="ICARUS" class="mobile-nav-logo" />
+    <a href="#how" onclick="navClose()">Protocol</a>
+    <a href="#features" onclick="navClose()">Arsenal</a>
+    <a href="#demo" onclick="navClose()">Live Demo</a>
+    <a href="#deploy" onclick="navClose()">Deploy</a>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content wrap">
+      <div class="hero-eyebrow">
+        <span class="status-dot"></span>
+        <span class="mono">SYSTEM ACTIVE — NETWORK PROTECTED</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-line1">LET THEM</span>
+        <span class="hero-title-line2">THINK <span class="accent">THEY FOUND</span></span>
+        <span class="hero-title-line3">SOMETHING.</span>
+      </h1>
+      <p class="hero-sub">
+        ICARUS is an on-network AI deception engine. The instant an attacker probes a port, 
+        ICARUS spawns <strong>30 identical decoys</strong> and silently displaces the real service —
+        adapting in real time to every move they make.
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary">See It In Action</a>
+        <a href="#how" class="btn-ghost">How It Works →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-n">30</span>
+          <span class="stat-l">Decoys Spawned</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-n">&lt;12ms</span>
+          <span class="stat-l">Swap Latency</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-n">99.97%</span>
+          <span class="stat-l">Deception Rate</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint mono">SCROLL TO DESCEND ↓</div>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section id="how" class="section-how">
+    <div class="wrap">
+      <div class="section-label mono reveal">[ 01 — PROTOCOL ]</div>
+      <h2 class="section-title reveal">The Deception Loop</h2>
+      <p class="section-sub reveal">Four phases, executed in milliseconds, every time.</p>
+
+      <div class="protocol-steps">
+        <div class="proto-step reveal">
+          <div class="proto-num">01</div>
+          <div class="proto-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="10" stroke="#f0a500" stroke-width="1" fill="none"/><circle cx="20" cy="20" r="2" fill="#f0a500"/><line x1="20" y1="5" x2="20" y2="10" stroke="#f0a500"/><line x1="20" y1="30" x2="20" y2="35" stroke="#f0a500"/><line x1="5" y1="20" x2="10" y2="20" stroke="#f0a500"/><line x1="30" y1="20" x2="35" y2="20" stroke="#f0a500"/></svg>
+          </div>
+          <h3>Probe Detected</h3>
+          <p>ICARUS monitors all network ports passively. The moment a scan or connection attempt is registered, the engine activates — before any handshake completes.</p>
+        </div>
+        <div class="proto-arrow reveal">→</div>
+        <div class="proto-step reveal">
+          <div class="proto-num">02</div>
+          <div class="proto-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40"><rect x="5" y="15" width="10" height="10" stroke="#f0a500" stroke-width="1" fill="rgba(240,165,0,0.1)"/><rect x="15" y="10" width="10" height="10" stroke="#f0a500" stroke-width="1" fill="rgba(240,165,0,0.1)"/><rect x="25" y="18" width="10" height="10" stroke="#f0a500" stroke-width="1" fill="rgba(240,165,0,0.1)"/><rect x="12" y="24" width="8" height="8" stroke="#f0a500" stroke-width="0.5" fill="rgba(240,165,0,0.05)"/></svg>
+          </div>
+          <h3>30 Decoys Spawned</h3>
+          <p>Thirty dynamically-configured honeypot services materialize across port space, each mimicking your real infrastructure with authentic banners, latency profiles, and responses.</p>
+        </div>
+        <div class="proto-arrow reveal">→</div>
+        <div class="proto-step reveal">
+          <div class="proto-num">03</div>
+          <div class="proto-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40"><polyline points="5,30 15,15 22,22 30,10 35,14" stroke="#f0a500" stroke-width="1.5" fill="none"/><circle cx="35" cy="14" r="2" fill="#f0a500"/></svg>
+          </div>
+          <h3>Behavior Analysis</h3>
+          <p>The AI model fingerprints the attacker: tool signatures, timing patterns, port preferences, protocol behavior. It builds a real-time threat profile to predict their next move.</p>
+        </div>
+        <div class="proto-arrow reveal">→</div>
+        <div class="proto-step reveal">
+          <div class="proto-num">04</div>
+          <div class="proto-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="12" stroke="#f0a500" stroke-width="1" fill="none" stroke-dasharray="4 3"/><circle cx="20" cy="20" r="4" fill="#f0a500" opacity="0.3"/><path d="M14,20 Q20,10 26,20 Q20,30 14,20" stroke="#f0a500" stroke-width="1" fill="none"/></svg>
+          </div>
+          <h3>Real Port Displaced</h3>
+          <p>Based on attacker input, ICARUS swaps the live service to a new port — transparent to legitimate users via session continuity — while the attacker explores a labyrinth of fakes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LIVE DEMO ═══ -->
+  <section id="demo" class="section-demo">
+    <div class="wrap">
+      <div class="section-label mono reveal">[ 02 — LIVE SIMULATION ]</div>
+      <h2 class="section-title reveal">Watch ICARUS React</h2>
+      <p class="section-sub reveal">Simulate an attacker probing your network. Watch the deception engine respond.</p>
+
+      <div class="demo-terminal reveal">
+        <div class="terminal-bar">
+          <div class="t-dots"><span></span><span></span><span></span></div>
+          <div class="t-title mono">ICARUS — Network Monitor  //  192.168.1.0/24</div>
+          <div class="t-status mono" id="tStatus">IDLE</div>
+        </div>
+        <div class="terminal-body">
+          <div class="term-left">
+            <div class="port-map" id="portMap">
+              <!-- JS populates -->
             </div>
-        </div>
-
-        <div id="terminal-log" class="right-sidebar">
-            <div class="terminal-header">System Log</div>
-            <div class="terminal-content" id="terminal-content">
-                <p class="system-msg">>> ICARUS System Online. Initializing subnet...</p>
+            <div class="term-legend">
+              <span class="leg-item"><span class="leg-dot real"></span>Real Service</span>
+              <span class="leg-item"><span class="leg-dot decoy"></span>Decoy</span>
+              <span class="leg-item"><span class="leg-dot probed"></span>Probed</span>
+              <span class="leg-item"><span class="leg-dot displaced"></span>Displaced</span>
             </div>
+          </div>
+          <div class="term-right">
+            <div class="icarus-log" id="icarusLog">
+              <div class="log-line mono dim">// ICARUS engine standing by...</div>
+              <div class="log-line mono dim">// Monitoring 65535 ports</div>
+              <div class="log-line mono dim">// AI model loaded — v2.4.1</div>
+            </div>
+            <div class="attacker-panel">
+              <div class="ap-title mono">ATTACKER CONSOLE</div>
+              <div class="ap-btns">
+                <button class="ap-btn" onclick="attackerAction('scan')">Port Scan</button>
+                <button class="ap-btn" onclick="attackerAction('probe')">Deep Probe</button>
+                <button class="ap-btn" onclick="attackerAction('connect')">Force Connect</button>
+                <button class="ap-btn" onclick="attackerAction('brute')">Brute Force</button>
+              </div>
+              <div class="ap-threat">
+                <div class="mono dim">THREAT SCORE</div>
+                <div class="threat-bar-wrap"><div class="threat-bar" id="threatBar"></div></div>
+                <div class="mono" id="threatVal">0 / 100</div>
+              </div>
+              <button class="reset-btn mono" onclick="resetDemo()">[ RESET SIMULATION ]</button>
+            </div>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2026 ICARUS Defense Systems | AI-Powered Cybersecurity</p>
-            <p>System Status: <span class="status-active">ACTIVE</span></p>
+  <!-- ═══ FEATURES ═══ -->
+  <section id="features" class="section-features">
+    <div class="wrap">
+      <div class="section-label mono reveal">[ 03 — ARSENAL ]</div>
+      <h2 class="section-title reveal">Full Deception Stack</h2>
+
+      <div class="features-grid">
+        <div class="feat-card reveal">
+          <div class="feat-icon">⬡</div>
+          <h3>Adaptive Honeypot Mesh</h3>
+          <p>Decoys aren't static. Each one adapts its service fingerprint, banner text, and response timing to match your real infrastructure's profile, making them indistinguishable.</p>
+          <div class="feat-tag mono">DECEPTION LAYER</div>
         </div>
-    </footer>
+        <div class="feat-card reveal">
+          <div class="feat-icon">◈</div>
+          <h3>Attacker Behavior Profiling</h3>
+          <p>The ICARUS AI model analyzes tool signatures (nmap, masscan, Metasploit), timing cadence, protocol fingerprints, and session patterns to classify threat type within 3 probes.</p>
+          <div class="feat-tag mono">AI ENGINE</div>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">⟳</div>
+          <h3>Live Port Displacement</h3>
+          <p>Real services are silently migrated mid-session. Existing legitimate connections are seamlessly rerouted via ICARUS session relay — zero downtime, zero alerts to legitimate users.</p>
+          <div class="feat-tag mono">CORE MECHANISM</div>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">▣</div>
+          <h3>30-Decoy Swarm Protocol</h3>
+          <p>Thirty decoys per detection event, each on distinct ports, each with unique service signatures. Attackers waste hours (or days) probing services that lead nowhere.</p>
+          <div class="feat-tag mono">SWARM LOGIC</div>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">◉</div>
+          <h3>Forensic Capture</h3>
+          <p>Every attacker interaction inside a decoy is logged: keystrokes, commands, payloads, lateral movement attempts. A complete forensic trail is built automatically for incident response.</p>
+          <div class="feat-tag mono">THREAT INTEL</div>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">△</div>
+          <h3>Zero-Trust Integration</h3>
+          <p>ICARUS operates as an inline layer on your existing network stack. No agents required on protected hosts. Compatible with SDN, VLAN segmentation, and cloud-native environments.</p>
+          <div class="feat-tag mono">DEPLOYMENT</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="scripts.js"></script>
+  <!-- ═══ AI MODEL DETAIL ═══ -->
+  <section class="section-model">
+    <div class="wrap">
+      <div class="model-split">
+        <div class="model-left reveal">
+          <div class="section-label mono">[ 04 — THE MODEL ]</div>
+          <h2 class="section-title">The Brain Behind<br>The Deception</h2>
+          <p>ICARUS runs a lightweight transformer model trained on 4.2B observed attacker sessions. It classifies threats in real time and selects which decoy configuration maximizes attacker engagement — keeping them inside the labyrinth longer.</p>
+          <ul class="model-list">
+            <li><span class="mono accent">→</span> Classifies 47 distinct attacker archetypes</li>
+            <li><span class="mono accent">→</span> Predicts next probe target with 89% accuracy</li>
+            <li><span class="mono accent">→</span> Runs entirely on-device — no cloud dependency</li>
+            <li><span class="mono accent">→</span> Model updates ship via signed OTA packages</li>
+            <li><span class="mono accent">→</span> Sub-12ms inference on commodity hardware</li>
+          </ul>
+        </div>
+        <div class="model-right reveal">
+          <div class="model-viz">
+            <div class="mv-label mono">ATTACKER INPUT CLASSIFICATION</div>
+            <div class="mv-bars" id="mvBars">
+              <div class="mv-bar-row"><span class="mono">Script Kiddie</span><div class="mv-bar-track"><div class="mv-bar-fill" style="width:12%"></div></div><span class="mono mv-pct">12%</span></div>
+              <div class="mv-bar-row"><span class="mono">APT Actor</span><div class="mv-bar-track"><div class="mv-bar-fill" style="width:34%"></div></div><span class="mono mv-pct">34%</span></div>
+              <div class="mv-bar-row"><span class="mono">Automated Bot</span><div class="mv-bar-track"><div class="mv-bar-fill" style="width:28%"></div></div><span class="mono mv-pct">28%</span></div>
+              <div class="mv-bar-row"><span class="mono">Pen Tester</span><div class="mv-bar-track"><div class="mv-bar-fill" style="width:18%"></div></div><span class="mono mv-pct">18%</span></div>
+              <div class="mv-bar-row"><span class="mono">Insider Threat</span><div class="mv-bar-track"><div class="mv-bar-fill" style="width:8%"></div></div><span class="mono mv-pct">8%</span></div>
+            </div>
+            <div class="mv-footer mono">
+              <span class="status-dot sm"></span> MODEL ACTIVE — 3,847 sessions analyzed today
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DEPLOY ═══ -->
+  <section id="deploy" class="section-deploy">
+    <div class="wrap">
+      <div class="section-label mono reveal">[ 05 — DEPLOYMENT ]</div>
+      <h2 class="section-title reveal">Activate ICARUS</h2>
+      <p class="section-sub reveal">On-premise. Air-gapped. Cloud. ICARUS runs where your network lives.</p>
+
+      <div class="deploy-grid">
+        <div class="deploy-card reveal">
+          <div class="dc-header mono">QUICK DEPLOY</div>
+          <div class="dc-code">
+            <div class="code-line"><span class="code-prompt">$</span> curl -sSL icarus.sh | sudo bash</div>
+            <div class="code-line"><span class="code-prompt">$</span> icarus init --network 192.168.1.0/24</div>
+            <div class="code-line"><span class="code-prompt">$</span> icarus protect --ports 22,80,443,3389</div>
+            <div class="code-line"><span class="code-prompt">$</span> icarus start</div>
+            <div class="code-line dim">// Engine active. 30 decoys ready.</div>
+          </div>
+        </div>
+        <div class="deploy-card reveal">
+          <div class="dc-header mono">DOCKER</div>
+          <div class="dc-code">
+            <div class="code-line"><span class="code-prompt">$</span> docker pull icarus/engine:latest</div>
+            <div class="code-line"><span class="code-prompt">$</span> docker run -d --network host \</div>
+            <div class="code-line indent">-e ICARUS_LICENSE=&lt;key&gt; \</div>
+            <div class="code-line indent">-v /etc/icarus:/config \</div>
+            <div class="code-line indent">icarus/engine:latest</div>
+          </div>
+        </div>
+        <div class="deploy-card reveal">
+          <div class="dc-header mono">KUBERNETES</div>
+          <div class="dc-code">
+            <div class="code-line"><span class="code-prompt">$</span> helm repo add icarus https://charts.icarus.sh</div>
+            <div class="code-line"><span class="code-prompt">$</span> helm install icarus icarus/icarus-engine \</div>
+            <div class="code-line indent">--set license=&lt;key&gt; \</div>
+            <div class="code-line indent">--set network.cidr=10.0.0.0/8</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deploy-cta reveal">
+        <a href="#" class="btn-primary large">Request Enterprise License</a>
+        <a href="#" class="btn-ghost">Read Documentation →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <img src="images/icarus_logo_black.png" alt="ICARUS" class="footer-logo-img" />
+          <p class="footer-tagline">Adaptive network deception.<br>Let them find nothing but lies.</p>
+          <div class="footer-badges">
+            <span class="f-badge">SOC 2 TYPE II</span>
+            <span class="f-badge">ISO 27001</span>
+            <span class="f-badge">FIPS 140-2</span>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title mono">Product</div>
+          <ul class="footer-links">
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#deploy">Deploy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title mono">Resources</div>
+          <ul class="footer-links">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">API Reference</a></li>
+            <li><a href="#">Threat Research</a></li>
+            <li><a href="#">Security Advisories</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title mono">Legal</div>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">License Agreement</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="mono dim">© 2025 ICARUS SYSTEMS — ALL RIGHTS RESERVED</span>
+        <span class="mono dim">CLASSIFIED NETWORK DEFENSE TECHNOLOGY</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- .site -->
+
+<script src="particles.min.js"></script>
+<script src="scripts.js"></script>
 </body>
 </html>
